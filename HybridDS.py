@@ -89,3 +89,27 @@ class Hybrid_DS:
     def _hash_function(self, key):
         """Computes the bucket index for a given key using hash() and hash table's size"""
         return hash(key) % self.table_size    
+    
+    def insert(self, key, value):
+        """inserts a key-value pair into the hybrid structure"""
+        index = self._hash_function(key)
+        if not self.table[index]: #if no data exists at index
+            self.table[index] = Binary_Search_Tree()
+        self.table[index].insert(key, value) # store data in bst found at computde index
+
+    def search(self, key):
+        """searches for a key in the hybrid structure and retrieves its associated value"""
+        index = self._hash_function(key)
+        if not self.table[index]: #if no daata exists at index
+            return None
+        return self.table[index].search(key) #serach data in bst found at computed index
+
+    def delete(self, key):
+        """deletes a key-value pair from the hybrid structure"""
+        index = self._hash_function(key)
+        if not self.table[index]: #if no data exists at index
+            return False
+        self.table[index].delete(key) #delete data in bst found at computed index
+        if self.table[index].is_empty():
+            self.table[index] = None  # Free the bucket if BST becomes empty
+        return True
