@@ -78,3 +78,10 @@ class Binary_Search_Tree:
     def is_empty(self):
         """Checks if the tree is empty"""
         return self.root is None
+    
+class Hybrid_DS:
+    """Class for the hybrid data structure"""
+    def __init__(self, table_size):
+        """class Hybrid_DS initialised with hash table of fixed size and empty buckets (arrays)"""
+        self.table_size = table_size
+        self.table = [None] * table_size #each bucket will hold a BST
