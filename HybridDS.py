@@ -8,7 +8,7 @@ class BST_Node:
         self.right = None   #Node initiated with no right child (no right subtree)
 
 class Binary_Search_Tree:
-    """Class to represent the BST in each bucket"""
+    """BST Class to represent each bucket in the hash table"""
     def __init__(self):
         """initialises the tree with empty node"""
         self.root = None
@@ -42,5 +42,38 @@ class Binary_Search_Tree:
             else:
                 return _search(node.right, key)
 
-        return _search(self.root, key)
+        return _search(self.root, key) #returns search results
 
+    def delete(self, key):
+        """Deletes the key-value pair from the BST and maintains the BST structure"""
+        def _delete(node, key):
+            """helper function to recursively locate and delete the node"""
+            if not node: #empty BST
+                return None
+            if key < node.key:
+                node.left = _delete(node.left, key)
+            elif key > node.key:
+                node.right = _delete(node.right, key)
+            else:
+                # Node to delete found
+                if not node.left:  #Node found with 1 right child
+                    return node.right
+                elif not node.right: #Node found with 1 left child
+                    return node.left
+
+                # Node with two children:
+                successor = self._find_min(node.right) #gets the inorder successor
+                node.key, node.value = successor.key, successor.value
+                node.right = _delete(node.right, successor.key)
+            return node
+
+        self.root = _delete(self.root, key) #updates the root after deletion
+
+    def _find_min(self, node):
+        """Finds the node with the smallest key in a given subtree"""
+        while node.left:
+            node = node.left
+        return node
+
+    def is_empty(self):
+        return self.root is None
