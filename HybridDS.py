@@ -85,3 +85,7 @@ class Hybrid_DS:
         """class Hybrid_DS initialised with hash table of fixed size and empty buckets (arrays)"""
         self.table_size = table_size
         self.table = [None] * table_size #each bucket will hold a BST
+
+    def _hash_function(self, key):
+        """Computes the bucket index for a given key using hash() and hash table's size"""
+        return hash(key) % self.table_size    
