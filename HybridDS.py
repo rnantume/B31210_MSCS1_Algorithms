@@ -1,6 +1,6 @@
 
 class BSTNode:
-    """class for data structure to represent a single node in a BST"""
+    """Data structure class to represent a single node in a BST"""
     def __init__(self, key, value):
         self.key = key      # uniquely identifies the node.
         self.value = value  #data associated with the key
