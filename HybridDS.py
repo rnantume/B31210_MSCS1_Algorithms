@@ -1,4 +1,5 @@
 # Program that defines the Hybrid data structure that combines hash table with BSTs.
+
 class BST_Node:
     """Class to represent a single node in a BST"""
     def __init__(self, key, value):
@@ -24,7 +25,7 @@ class Binary_Search_Tree:
             elif key > node.key:
                 node.right = _insert(node.right, key, value)
             else:
-                node.value = value  # Update value if key exists
+                node.value = value  # Update value if key already exists
             return node
 
         self.root = _insert(self.root, key, value) #Updates the root after the insertion
@@ -79,6 +80,20 @@ class Binary_Search_Tree:
         """Checks if the tree is empty"""
         return self.root is None
     
+    def print_bst(self):
+        """Print all the key-value pairs in the BST in sorted order."""
+        def inorder_traversal(node):
+            if node is not None:
+                inorder_traversal(node.left)
+                print(f"  ({node.key}: {node.value})", end=" ")
+                inorder_traversal(node.right)
+
+        if self.root is None:
+            print("  Empty")
+        else:
+            inorder_traversal(self.root)
+            print()
+    
 class Hybrid_DS:
     """Class for the hybrid data structure"""
     def __init__(self, table_size):
@@ -113,3 +128,16 @@ class Hybrid_DS:
         if self.table[index].is_empty():
             self.table[index] = None  # Free the bucket if BST becomes empty
         return True
+    
+    def display_items(self):
+        """Display items in each bucket (BST) of the hash table."""
+        for index, bucket in enumerate(self.table):
+            print(f"Bucket {index}:", end=" ")
+            if bucket is None:
+                print("None")
+            else:
+                bucket.print_bst()
+            #if bucket is None:
+             #   print("  Empty")
+           # else:
+           #     bucket.print_bst()
