@@ -137,7 +137,4 @@ class Hybrid_DS:
                 print("None")
             else:
                 bucket.print_bst()
-            #if bucket is None:
-             #   print("  Empty")
-           # else:
-           #     bucket.print_bst()
+    
