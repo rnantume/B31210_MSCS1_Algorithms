@@ -1,4 +1,4 @@
-# Program that defines the Hybrid data structure that combines hash tables with BSTs.
+# Program that defines the Hybrid data structure that combines hash table with BSTs.
 class BST_Node:
     """Class to represent a single node in a BST"""
     def __init__(self, key, value):

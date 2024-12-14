@@ -1,6 +1,5 @@
 from HybridDS import BST_Node, Binary_Search_Tree, Hybrid_DS
 
-#Program that utilizes the Hybrid Hash-BST data structure
 def main():
     # Initialize the Hybrid_DS with a table size of 6
     hybrid = Hybrid_DS(6)
