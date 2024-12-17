@@ -89,7 +89,7 @@ class Binary_Search_Tree:
                 inorder_traversal(node.right)
 
         if self.root is None:
-            print("  Empty")
+            print("  Empty", end="")
         else:
             inorder_traversal(self.root)
             print()
@@ -110,8 +110,8 @@ class Hybrid_DS:
         index = self._hash_function(key)
         if not self.table[index]: #if no data exists at index
             self.table[index] = Binary_Search_Tree()
-        self.table[index].insert(key, value) # store data in bst found at computde index
-
+        self.table[index].insert(key, value) # store data in bst found at computed index/bucket
+ 
     def search(self, key):
         """searches for a key in the hybrid structure and retrieves its associated value"""
         index = self._hash_function(key)
@@ -146,15 +146,15 @@ def main():
               (20, "moe"), (18, "mia"), (25, "zoe"), 
               (15, "sue"), (12, "lou"), (18, "rae")] 
 
-    print("Inserting data from dataset1:")
+    print("Inserting data from dataset:")
     for key, value in dataset:
         hybrid.insert(key, value)
         print(f"Inserted ({key}, {value})")
 
-    print("\nPrinting items in hybrid1 after insertion:")
+    print("\nPrinting items in hybrid after insertion:")
     hybrid.display_items()
     
-    print("\nSearching for keys in dataset1:")
+    print("\nSearching for keys in dataset:")
     search_keys = [15, 20, 50]  # keys may exist or not
     for key in search_keys:
         result = hybrid.search(key)
@@ -163,7 +163,7 @@ def main():
         else:
             print(f"Key {key} not found.")
 
-    print("\nDeleting keys from dataset1:")
+    print("\nDeleting keys from dataset:")
     delete_keys = [20, 35, 50]  # keys may exist or not
     for key in delete_keys:
         success = hybrid.delete(key)
@@ -180,7 +180,7 @@ def main():
         else:
             print(f"Key {key} not found.")
 
-    print("\nPrinting items in hybrid1 after deletion:")
+    print("\nPrinting items in hybrid after deletion:")
     hybrid.display_items()
 
 if __name__ == "__main__":

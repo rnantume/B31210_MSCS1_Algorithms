@@ -1,39 +1,60 @@
-#  Program to test your data structure using datasets of varying sizes. 
 import timeit
+import random
+from HybridDS import Hybrid_DS  
+import sys
+sys.setrecursionlimit(2000)  # Increase recursion depth li
 
 # Function to benchmark an operation
-def benchmark_operation(dataset_size, operation, operation_code):
-    setup_code = f"""
-from HybridDS import Hybrid_DS
-hybrid_ds = Hybrid_DS(100)
-dataset = [(i, "value_") for i in range({dataset_size})]  # Prepopulate dataset
-for key, value in dataset:
-    hybrid_ds.insert(key, value)  # Insert into Hybrid_DS
-"""
-    test_code = operation_code
-    execution_time = timeit.timeit(stmt=test_code, setup=setup_code, number=100)
+def benchmark_operation(dataset_size, operation_code, setup_code):
+    execution_time = timeit.timeit(stmt=operation_code, setup=setup_code, number=100)
     return execution_time
 
-# List of dataset sizes to test
-dataset_sizes = [10, 100, 1000, 10000]
+# Generate datasets for different cases
+def generate_dataset(size, case):
+    if case == "best":
+        return list(range(size))  # Sequential data for best-case insertion
+    elif case == "worst":
+        # Keys that hash to the same bucket (simulate high collisions)
+        bucket_index = 0
+        return [bucket_index + size * i for i in range(size, 0, -1)]  # Descending order for unbalanced BST
+    elif case == "average":
+        return random.sample(range(size * 10), size)  # Random data for balanced BST
 
-# Operations to test: Insertion, Deletion, and Search
-for size in dataset_sizes:
-    print(f"\nDataset Size: {size}")
-    
-    # Test insertion (since the dataset is already prepopulated, we only measure the time taken for the setup)
-    insertion_code = "pass"  # Prepopulation happens in setup
-    insertion_time = benchmark_operation(size, "Insertion", insertion_code)
-    print(f"Average Insertion Time for dataset of size {size}: {insertion_time:.9f} seconds")
-    
-    # Test search for a random key in the dataset (e.g., size // 2)
-    search_key = size // 2  # Search for the middle key
-    search_code = f"hybrid_ds.search({search_key})"
-    search_time = benchmark_operation(size, "Search", search_code)
-    print(f"Average Search Time for dataset of size {size}: {search_time:.6f} seconds")
-    
-    # Test deletion of a random key from the dataset
-    deletion_key = size // 2  # Delete the middle key
-    deletion_code = f"hybrid_ds.delete({deletion_key})"
-    deletion_time = benchmark_operation(size, "Deletion", deletion_code)
-    print(f"Average Deletion Time for dataset of size {size}: {deletion_time:.6f} seconds")
+# Test configurations
+dataset_sizes = [10, 100, 1000, 10000]
+cases = ["best", "worst", "average"]
+
+# Iterate through cases and dataset sizes
+for case in cases:
+    print(f"\nTesting {case.capitalize()} Case Performance:")
+    for size in dataset_sizes:
+        print(f"  Dataset Size: {size}")
+
+        # Generate the dataset
+        dataset = generate_dataset(size, case)
+
+        # Setup code for the Hybrid_DS
+        setup_code = f"""
+from HybridDS import Hybrid_DS
+hybrid_ds = Hybrid_DS(100)
+dataset = {dataset}
+for key in dataset:
+    hybrid_ds.insert(key, "value_" + str(key))  # Insert into Hybrid_DS
+"""
+
+        # Insertion Benchmark (additional insert)
+        insertion_code = f"hybrid_ds.insert({size + 1}, 'value_{size + 1}')"
+        insertion_time = benchmark_operation(size, insertion_code, setup_code)
+        print(f"    Insertion Time: {insertion_time:.6f} seconds")
+
+        # Search Benchmark (search for a specific key)
+        search_key = dataset[size // 2] if case != "best" else 0  # Middle key or root
+        search_code = f"hybrid_ds.search({search_key})"
+        search_time = benchmark_operation(size, search_code, setup_code)
+        print(f"    Search Time: {search_time:.6f} seconds")
+
+        # Deletion Benchmark (delete a specific key)
+        deletion_key = dataset[size // 2] if case != "best" else 0  # Middle key or root
+        deletion_code = f"hybrid_ds.delete({deletion_key})"
+        deletion_time = benchmark_operation(size, deletion_code, setup_code)
+        print(f"    Deletion Time: {deletion_time:.6f} seconds")
