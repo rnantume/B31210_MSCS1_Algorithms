@@ -121,14 +121,21 @@ class Hybrid_DS:
 
     def delete(self, key):
         """deletes a key-value pair from the hybrid structure"""
-        index = self._hash_function(key)
-        #if not self.table[index]: #if no data exists at index
-        if self.search(key) is None:
+        index = self._hash_function(key) # get the bucket index
+        bucket = self.table[index] #getting the bucket
+        
+        if not bucket: #if no bucket exists at index
             return False
-        self.table[index].delete(key) #delete data in bst found at computed index
-        if self.table[index].is_empty():
-            self.table[index] = None  # Free the bucket if BST becomes empty
-        return True
+        
+        # Delete the key if BST exists at bucket index
+        result = bucket.delete(key)
+
+        if result:
+            if bucket.is_empty(): # check if bucket becomes empty
+                self.table[index] = None #Free the bucket if BST becomes empty
+            return True
+        else: # BST exists but the key not found
+            return False
     
     def display_items(self):
         """Display items in each bucket (BST) of the hash table."""
