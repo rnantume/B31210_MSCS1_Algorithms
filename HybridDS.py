@@ -122,7 +122,8 @@ class Hybrid_DS:
     def delete(self, key):
         """deletes a key-value pair from the hybrid structure"""
         index = self._hash_function(key)
-        if not self.table[index]: #if no data exists at index
+        #if not self.table[index]: #if no data exists at index
+        if self.search(key) is None:
             return False
         self.table[index].delete(key) #delete data in bst found at computed index
         if self.table[index].is_empty():
