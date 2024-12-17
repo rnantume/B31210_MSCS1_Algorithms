@@ -2,7 +2,7 @@ import timeit
 import random
 from HybridDS import Hybrid_DS  
 import sys
-sys.setrecursionlimit(2000)  # Increase recursion depth li
+sys.setrecursionlimit(2000)  # Increase recursion depth limit
 
 # Function to benchmark an operation
 def benchmark_operation(dataset_size, operation_code, setup_code):
@@ -14,15 +14,16 @@ def generate_dataset(size, case):
     if case == "best":
         return list(range(size))  # Sequential data for best-case insertion
     elif case == "worst":
-        # Keys that hash to the same bucket (simulate high collisions)
+        # Keys are crafted to hash to same buckect (high collisions)
         bucket_index = 0
-        return [bucket_index + size * i for i in range(size, 0, -1)]  # Descending order for unbalanced BST
+        # Descending order data for unbalanced BST
+        return [bucket_index + size * i for i in range(size, 0, -1)] 
     elif case == "average":
         return random.sample(range(size * 10), size)  # Random data for balanced BST
 
 # Test configurations
 dataset_sizes = [10, 100, 1000, 10000]
-cases = ["best", "worst", "average"]
+cases = ["best", "average", "worst"]
 
 # Iterate through cases and dataset sizes
 for case in cases:
