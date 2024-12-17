@@ -150,9 +150,9 @@ def main():
     # Initialize the Hybrid_DS with a table size of 6
     hybrid = Hybrid_DS(7)
 
-    dataset= [(10, "bae"), (5, "tim"), (15, "len"), 
-              (20, "moe"), (18, "mia"), (25, "zoe"), 
-              (15, "sue"), (12, "lou"), (18, "rae")] 
+    dataset= [(10, "bael"), (5, "timmy"), (15, "lendy"), 
+              (20, "moet"), (18, "miai"), (25, "zoey"), 
+              (15, "sue kate"), (12, "louis"), (18, "rael")] 
 
     print("Inserting data from dataset:")
     for key, value in dataset:
